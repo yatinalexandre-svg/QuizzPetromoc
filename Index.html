@@ -1,0 +1,56 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Quiz aleatório</title>
+  <meta name="robots" content="noindex" />
+  <script>
+    // Liste aqui seus quizzes:
+    const quizzes = [
+      "https://forms.office.com/r/5YVzF9tfrX",
+      "https://forms.office.com/r/zybApEYqe1",
+      "https://forms.office.com/r/LBreh6tVnS",
+      "https://forms.office.com/r/RuXEZ9YkAt",
+      "https://forms.office.com/r/gWkSTnrc1D",
+      "https://forms.office.com/r/8nUYX6nUS3"
+      // adicione quantos quiser
+    ];
+
+    // (Opcional) pesos diferentes por quiz (deixe vazio para distribuição uniforme)
+    const pesos = []; // exemplo: [0.5, 0.3, 0.2];
+
+    function escolherIndiceAleatorio() {
+      if (Array.isArray(pesos) && pesos.length === quizzes.length && pesos.length > 0) {
+        const soma = pesos.reduce((a,b)=>a+b,0);
+        let r = Math.random() * soma;
+        for (let i=0; i<pesos.length; i++) {
+          r -= pesos[i];
+          if (r <= 0) return i;
+        }
+        return pesos.length - 1;
+      } else {
+        return Math.floor(Math.random() * quizzes.length);
+      }
+    }
+
+    function redirecionar() {
+      // (Opcional) preservar UTM/params
+      const params = window.location.search; // "?utm_source=..." etc.
+      const i = escolherIndiceAleatorio();
+      const destino = quizzes[i] + (params ? params : "");
+      window.location.replace(destino);
+    }
+
+    // Executa imediatamente ao carregar
+    window.addEventListener("DOMContentLoaded", redirecionar);
+  </script>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+  </style>
+</head>
+<body>
+  <p>Redirecionando para um quiz aleatório…</p>
+  <noscript>Ative o JavaScript para prosseguir.</noscript>
+</body>
+</html>
